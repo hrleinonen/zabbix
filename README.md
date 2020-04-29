@@ -1,6 +1,6 @@
-Versio 1.1, only SNMPv2 and missing sysName
+Version 1.1, only SNMPv2 and missing sysName
 
-Versio 1.1.3
+Version 1.1.3
 SNMPv3 support added, new macros:
 {$SECURITY_NAME} = Username
 {$AUTH_PASSPHRASE} = Authentication password 
