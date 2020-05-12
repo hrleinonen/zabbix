@@ -1,5 +1,5 @@
 Template_Cisco_ASA_1.1.xml support only SNMPv2 and there is no sysName
-//
+
 Template_Cisco_ASA_1.1.3.xml support SNMPv3
 SNMPv3 support added, new macros:
 {$SECURITY_NAME} = Username
