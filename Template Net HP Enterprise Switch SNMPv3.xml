@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-05-12T17:44:58Z</date>
+    <date>2020-05-13T10:21:23Z</date>
     <groups>
         <group>
             <name>Templates/Network devices</name>
@@ -59,6 +59,38 @@ Version 1.0</description>
                     <type>SNMPV3</type>
                     <snmp_oid>1.3.6.1.4.1.11.2.14.11.5.1.9.6.1.0</snmp_oid>
                     <key>system.cpu.utilV3[hpSwitchCpuStat.0]</key>
+                    <history>7d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <snmpv3_securityname>{$SECURITY_NAME}</snmpv3_securityname>
+                    <snmpv3_securitylevel>AUTHPRIV</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>SHA</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase>{$AUTH_PASSPHRASE}</snmpv3_authpassphrase>
+                    <snmpv3_privprotocol>AES</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase>{$PRIV_PASSPHRASE}</snmpv3_privpassphrase>
+                    <description>MIB: STATISTICS-MIB&#13;
+The CPU utilization in percent(%).&#13;
+Reference: http://h20564.www2.hpe.com/hpsc/doc/public/display?docId=emr_na-c02597344&amp;sp4ts.oid=51079</description>
+                    <applications>
+                        <application>
+                            <name>CPU</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{min(5m)}&gt;{$CPU.UTIL.CRIT}</expression>
+                            <name>High CPU utilization (over {$CPU.UTIL.CRIT}% for 5m)</name>
+                            <opdata>Current utilization: {ITEM.LASTVALUE1}</opdata>
+                            <priority>WARNING</priority>
+                            <description>CPU utilization is too high. The system might be slow to respond.</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>CPU utilization</name>
+                    <type>SNMPV3</type>
+                    <snmp_oid>1.3.6.1.4.1.11.2.14.11.5.1.9.6.1.0</snmp_oid>
+                    <key>system.cpu.util[hpSwitchV3CpuStat.0]</key>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
@@ -193,14 +225,19 @@ A    the function set available in your router&#13;
                     <item_prototypes>
                         <item_prototype>
                             <name>{#ENT_NAME}: Hardware model name</name>
-                            <type>SNMPV2</type>
-                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <type>SNMPV3</type>
                             <snmp_oid>1.3.6.1.2.1.47.1.1.1.1.2.{#SNMPINDEX}</snmp_oid>
-                            <key>system.hw.model[entPhysicalDescr.{#SNMPINDEX}]</key>
+                            <key>system.hw.modelV3[entPhysicalDescr.{#SNMPINDEX}]</key>
                             <delay>1h</delay>
                             <history>2w</history>
                             <trends>0</trends>
                             <value_type>CHAR</value_type>
+                            <snmpv3_securityname>{$SECURITY_NAME}</snmpv3_securityname>
+                            <snmpv3_securitylevel>AUTHPRIV</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>SHA</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase>{$AUTH_PASSPHRASE}</snmpv3_authpassphrase>
+                            <snmpv3_privprotocol>AES</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase>{$PRIV_PASSPHRASE}</snmpv3_privpassphrase>
                             <description>MIB: ENTITY-MIB</description>
                             <applications>
                                 <application>
@@ -216,14 +253,19 @@ A    the function set available in your router&#13;
                         </item_prototype>
                         <item_prototype>
                             <name>{#ENT_NAME}: Hardware version(revision)</name>
-                            <type>SNMPV2</type>
-                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <type>SNMPV3</type>
                             <snmp_oid>1.3.6.1.2.1.47.1.1.1.1.8.{#SNMPINDEX}</snmp_oid>
-                            <key>system.hw.version[entPhysicalHardwareRev.{#SNMPINDEX}]</key>
+                            <key>system.hw.versionV3[entPhysicalHardwareRev.{#SNMPINDEX}]</key>
                             <delay>1h</delay>
                             <history>2w</history>
                             <trends>0</trends>
                             <value_type>CHAR</value_type>
+                            <snmpv3_securityname>{$SECURITY_NAME}</snmpv3_securityname>
+                            <snmpv3_securitylevel>AUTHPRIV</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>SHA</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase>{$AUTH_PASSPHRASE}</snmpv3_authpassphrase>
+                            <snmpv3_privprotocol>AES</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase>{$PRIV_PASSPHRASE}</snmpv3_privpassphrase>
                             <description>MIB: ENTITY-MIB</description>
                             <applications>
                                 <application>
@@ -270,13 +312,18 @@ A    the function set available in your router&#13;
                     <item_prototypes>
                         <item_prototype>
                             <name>{#ENT_DESCR}: Fan status</name>
-                            <type>SNMPV2</type>
-                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <type>SNMPV3</type>
                             <snmp_oid>1.3.6.1.4.1.11.2.14.11.1.2.6.1.4.{#SNMPINDEX}</snmp_oid>
-                            <key>sensor.fan.status[hpicfSensorStatus.{#SNMPINDEX}]</key>
+                            <key>sensor.fan.statusV3[hpicfSensorStatus.{#SNMPINDEX}]</key>
                             <delay>3m</delay>
                             <history>2w</history>
-                            <trends>0d</trends>
+                            <trends>0</trends>
+                            <snmpv3_securityname>{$SECURITY_NAME}</snmpv3_securityname>
+                            <snmpv3_securitylevel>AUTHPRIV</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>SHA</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase>{$AUTH_PASSPHRASE}</snmpv3_authpassphrase>
+                            <snmpv3_privprotocol>AES</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase>{$PRIV_PASSPHRASE}</snmpv3_privpassphrase>
                             <description>MIB: HP-ICF-CHASSIS&#13;
 Actual status indicated by the sensor: {#ENT_DESCR}</description>
                             <applications>
@@ -304,7 +351,7 @@ Actual status indicated by the sensor: {#ENT_DESCR}</description>
                                     <dependencies>
                                         <dependency>
                                             <name>{#ENT_DESCR}: Fan is in critical state</name>
-                                            <expression>{Template Net HP Enterprise Switch SNMPv3:sensor.fan.status[hpicfSensorStatus.{#SNMPINDEX}].count(#1,{$FAN_CRIT_STATUS:&quot;bad&quot;},eq)}=1</expression>
+                                            <expression>{Template Net HP Enterprise Switch SNMPv3:sensor.fan.statusV3[hpicfSensorStatus.{#SNMPINDEX}].count(#1,{$FAN_CRIT_STATUS:&quot;bad&quot;},eq)}=1</expression>
                                         </dependency>
                                     </dependencies>
                                 </trigger_prototype>
@@ -328,12 +375,17 @@ Actual status indicated by the sensor: {#ENT_DESCR}</description>
                     <item_prototypes>
                         <item_prototype>
                             <name>#{#SNMPVALUE}: Available memory</name>
-                            <type>SNMPV2</type>
-                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <type>SNMPV3</type>
                             <snmp_oid>1.3.6.1.4.1.11.2.14.11.5.1.1.2.1.1.1.6.{#SNMPINDEX}</snmp_oid>
-                            <key>vm.memory.available[hpLocalMemFreeBytes.{#SNMPINDEX}]</key>
+                            <key>vm.memory.availableV3[hpLocalMemFreeBytes.{#SNMPINDEX}]</key>
                             <history>7d</history>
                             <units>B</units>
+                            <snmpv3_securityname>{$SECURITY_NAME}</snmpv3_securityname>
+                            <snmpv3_securitylevel>AUTHPRIV</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>SHA</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase>{$AUTH_PASSPHRASE}</snmpv3_authpassphrase>
+                            <snmpv3_privprotocol>AES</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase>{$PRIV_PASSPHRASE}</snmpv3_privpassphrase>
                             <description>MIB: NETSWITCH-MIB&#13;
 The number of available (unallocated) bytes.</description>
                             <applications>
@@ -344,12 +396,17 @@ The number of available (unallocated) bytes.</description>
                         </item_prototype>
                         <item_prototype>
                             <name>#{#SNMPVALUE}: Total memory</name>
-                            <type>SNMPV2</type>
-                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <type>SNMPV3</type>
                             <snmp_oid>1.3.6.1.4.1.11.2.14.11.5.1.1.2.1.1.1.5.{#SNMPINDEX}</snmp_oid>
-                            <key>vm.memory.total[hpLocalMemTotalBytes.{#SNMPINDEX}]</key>
+                            <key>vm.memory.totalV3[hpLocalMemTotalBytes.{#SNMPINDEX}]</key>
                             <history>7d</history>
                             <units>B</units>
+                            <snmpv3_securityname>{$SECURITY_NAME}</snmpv3_securityname>
+                            <snmpv3_securitylevel>AUTHPRIV</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>SHA</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase>{$AUTH_PASSPHRASE}</snmpv3_authpassphrase>
+                            <snmpv3_privprotocol>AES</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase>{$PRIV_PASSPHRASE}</snmpv3_privpassphrase>
                             <description>MIB: NETSWITCH-MIB&#13;
 The number of currently installed bytes.</description>
                             <applications>
@@ -360,12 +417,17 @@ The number of currently installed bytes.</description>
                         </item_prototype>
                         <item_prototype>
                             <name>#{#SNMPVALUE}: Used memory</name>
-                            <type>SNMPV2</type>
-                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <type>SNMPV3</type>
                             <snmp_oid>1.3.6.1.4.1.11.2.14.11.5.1.1.2.1.1.1.7.{#SNMPINDEX}</snmp_oid>
-                            <key>vm.memory.used[hpLocalMemAllocBytes.{#SNMPINDEX}]</key>
+                            <key>vm.memory.usedV3[hpLocalMemAllocBytes.{#SNMPINDEX}]</key>
                             <history>7d</history>
                             <units>B</units>
+                            <snmpv3_securityname>{$SECURITY_NAME}</snmpv3_securityname>
+                            <snmpv3_securitylevel>AUTHPRIV</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>SHA</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase>{$AUTH_PASSPHRASE}</snmpv3_authpassphrase>
+                            <snmpv3_privprotocol>AES</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase>{$PRIV_PASSPHRASE}</snmpv3_privpassphrase>
                             <description>MIB: NETSWITCH-MIB&#13;
 The number of currently allocated bytes.</description>
                             <applications>
@@ -377,11 +439,11 @@ The number of currently allocated bytes.</description>
                         <item_prototype>
                             <name>#{#SNMPVALUE}: Memory utilization</name>
                             <type>CALCULATED</type>
-                            <key>vm.memory.util[snmp.{#SNMPINDEX}]</key>
+                            <key>vm.memory.utilV3[snmp.{#SNMPINDEX}]</key>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
                             <units>%</units>
-                            <params>last(&quot;vm.memory.used[hpLocalMemAllocBytes.{#SNMPINDEX}]&quot;)/last(&quot;vm.memory.total[hpLocalMemTotalBytes.{#SNMPINDEX}]&quot;)*100</params>
+                            <params>last(&quot;vm.memory.usedV3[hpLocalMemAllocBytes.{#SNMPINDEX}]&quot;)/last(&quot;vm.memory.totalV3[hpLocalMemTotalBytes.{#SNMPINDEX}]&quot;)*100</params>
                             <description>Memory utilization in %</description>
                             <applications>
                                 <application>
@@ -408,7 +470,7 @@ The number of currently allocated bytes.</description>
                                     <color>1A7C11</color>
                                     <item>
                                         <host>Template Net HP Enterprise Switch SNMPv3</host>
-                                        <key>vm.memory.total[hpLocalMemTotalBytes.{#SNMPINDEX}]</key>
+                                        <key>vm.memory.totalV3[hpLocalMemTotalBytes.{#SNMPINDEX}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -417,7 +479,7 @@ The number of currently allocated bytes.</description>
                                     <color>2774A4</color>
                                     <item>
                                         <host>Template Net HP Enterprise Switch SNMPv3</host>
-                                        <key>vm.memory.available[hpLocalMemFreeBytes.{#SNMPINDEX}]</key>
+                                        <key>vm.memory.availableV3[hpLocalMemFreeBytes.{#SNMPINDEX}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -432,7 +494,7 @@ The number of currently allocated bytes.</description>
                                     <color>1A7C11</color>
                                     <item>
                                         <host>Template Net HP Enterprise Switch SNMPv3</host>
-                                        <key>vm.memory.util[snmp.{#SNMPINDEX}]</key>
+                                        <key>vm.memory.utilV3[snmp.{#SNMPINDEX}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -470,13 +532,18 @@ The number of currently allocated bytes.</description>
                     <item_prototypes>
                         <item_prototype>
                             <name>{#ENT_DESCR}: Power supply status</name>
-                            <type>SNMPV2</type>
-                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <type>SNMPV3</type>
                             <snmp_oid>1.3.6.1.4.1.11.2.14.11.1.2.6.1.4.{#SNMPINDEX}</snmp_oid>
-                            <key>sensor.psu.status[hpicfSensorStatus.{#SNMPINDEX}]</key>
+                            <key>sensor.psu.statusV3[hpicfSensorStatus.{#SNMPINDEX}]</key>
                             <delay>3m</delay>
                             <history>2w</history>
-                            <trends>0d</trends>
+                            <trends>0</trends>
+                            <snmpv3_securityname>{$SECURITY_NAME}</snmpv3_securityname>
+                            <snmpv3_securitylevel>AUTHPRIV</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>SHA</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase>{$AUTH_PASSPHRASE}</snmpv3_authpassphrase>
+                            <snmpv3_privprotocol>AES</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase>{$PRIV_PASSPHRASE}</snmpv3_privpassphrase>
                             <description>MIB: HP-ICF-CHASSIS&#13;
 Actual status indicated by the sensor: {#ENT_DESCR}</description>
                             <applications>
@@ -504,7 +571,7 @@ Actual status indicated by the sensor: {#ENT_DESCR}</description>
                                     <dependencies>
                                         <dependency>
                                             <name>{#ENT_DESCR}: Power supply is in critical state</name>
-                                            <expression>{Template Net HP Enterprise Switch SNMPv3:sensor.psu.status[hpicfSensorStatus.{#SNMPINDEX}].count(#1,{$PSU_CRIT_STATUS:&quot;bad&quot;},eq)}=1</expression>
+                                            <expression>{Template Net HP Enterprise Switch SNMPv3:sensor.psu.statusV3[hpicfSensorStatus.{#SNMPINDEX}].count(#1,{$PSU_CRIT_STATUS:&quot;bad&quot;},eq)}=1</expression>
                                         </dependency>
                                     </dependencies>
                                 </trigger_prototype>
@@ -543,13 +610,18 @@ Actual status indicated by the sensor: {#ENT_DESCR}</description>
                     <item_prototypes>
                         <item_prototype>
                             <name>{#SENSOR_INFO}: Temperature</name>
-                            <type>SNMPV2</type>
-                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <type>SNMPV3</type>
                             <snmp_oid>1.3.6.1.2.1.99.1.1.1.4.{#SNMPINDEX}</snmp_oid>
-                            <key>sensor.temp.value[entPhySensorValue.{#SNMPINDEX}]</key>
+                            <key>sensor.temp.valueV3[entPhySensorValue.{#SNMPINDEX}]</key>
                             <delay>3m</delay>
                             <value_type>FLOAT</value_type>
                             <units>°C</units>
+                            <snmpv3_securityname>{$SECURITY_NAME}</snmpv3_securityname>
+                            <snmpv3_securitylevel>AUTHPRIV</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>SHA</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase>{$AUTH_PASSPHRASE}</snmpv3_authpassphrase>
+                            <snmpv3_privprotocol>AES</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase>{$PRIV_PASSPHRASE}</snmpv3_privpassphrase>
                             <description>MIB: ENTITY-SENSORS-MIB&#13;
 The most recent measurement obtained by the agent for this sensor.&#13;
 To correctly interpret the value of this object, the associated entPhySensorType,&#13;
@@ -580,8 +652,8 @@ entPhySensorScale, and entPhySensorPrecision objects must also be examined.</des
                                     <dependencies>
                                         <dependency>
                                             <name>{#SENSOR_INFO}: Temperature is above critical threshold: &gt;{$TEMP_CRIT:&quot;&quot;}</name>
-                                            <expression>{Template Net HP Enterprise Switch SNMPv3:sensor.temp.value[entPhySensorValue.{#SNMPINDEX}].avg(5m)}&gt;{$TEMP_CRIT:&quot;&quot;}</expression>
-                                            <recovery_expression>{Template Net HP Enterprise Switch SNMPv3:sensor.temp.value[entPhySensorValue.{#SNMPINDEX}].max(5m)}&lt;{$TEMP_CRIT:&quot;&quot;}-3</recovery_expression>
+                                            <expression>{Template Net HP Enterprise Switch SNMPv3:sensor.temp.valueV3[entPhySensorValue.{#SNMPINDEX}].avg(5m)}&gt;{$TEMP_CRIT:&quot;&quot;}</expression>
+                                            <recovery_expression>{Template Net HP Enterprise Switch SNMPv3:sensor.temp.valueV3[entPhySensorValue.{#SNMPINDEX}].max(5m)}&lt;{$TEMP_CRIT:&quot;&quot;}-3</recovery_expression>
                                         </dependency>
                                     </dependencies>
                                 </trigger_prototype>
@@ -628,13 +700,18 @@ entPhySensorScale, and entPhySensorPrecision objects must also be examined.</des
                     <item_prototypes>
                         <item_prototype>
                             <name>{#ENT_DESCR}: Temperature status</name>
-                            <type>SNMPV2</type>
-                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <type>SNMPV3</type>
                             <snmp_oid>1.3.6.1.4.1.11.2.14.11.1.2.6.1.4.{#SNMPINDEX}</snmp_oid>
-                            <key>sensor.temp.status[hpicfSensorStatus.{#SNMPINDEX}]</key>
+                            <key>sensor.temp.statusV3[hpicfSensorStatus.{#SNMPINDEX}]</key>
                             <delay>3m</delay>
                             <history>2w</history>
-                            <trends>0d</trends>
+                            <trends>0</trends>
+                            <snmpv3_securityname>{$SECURITY_NAME}</snmpv3_securityname>
+                            <snmpv3_securitylevel>AUTHPRIV</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>SHA</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase>{$AUTH_PASSPHRASE}</snmpv3_authpassphrase>
+                            <snmpv3_privprotocol>AES</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase>{$PRIV_PASSPHRASE}</snmpv3_privpassphrase>
                             <description>MIB: HP-ICF-CHASSIS&#13;
 Actual status indicated by the sensor: {#ENT_DESCR}</description>
                             <applications>
