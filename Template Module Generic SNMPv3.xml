@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-05-12T17:44:21Z</date>
+    <date>2020-05-13T10:21:17Z</date>
     <groups>
         <group>
             <name>Templates/Modules</name>
@@ -16,7 +16,7 @@ Template used Template Module Generic SNMPv2&#13;
 &#13;
 Ville Leinonen&#13;
 https://www.hacknetwork.org&#13;
-Version 1.0</description>
+Version 1.1</description>
             <templates>
                 <template>
                     <name>Template Module ICMP Ping</name>
