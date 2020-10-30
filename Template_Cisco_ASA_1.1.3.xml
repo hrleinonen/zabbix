@@ -142,7 +142,7 @@ TODO (maybe): Interface statistic and more triggers.</description>
                     </applications>
                     <triggers>
                         <trigger>
-                            <expression>{change()}=0</expression>
+                            <expression>{change()}=1</expression>
                             <recovery_mode>NONE</recovery_mode>
                             <name>{HOST.NAME} Cisco ASA Failover triggered</name>
                             <priority>HIGH</priority>
